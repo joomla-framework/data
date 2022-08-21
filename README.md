@@ -1,5 +1,10 @@
 ## The Data Package [![Build Status](https://ci.joomla.org/api/badges/joomla-framework/data/status.svg?ref=refs/heads/2.0-dev)](https://ci.joomla.org/joomla-framework/data)
 
+[![Latest Stable Version](https://poser.pugx.org/joomla/data/v/stable)](https://packagist.org/packages/joomla/data)
+[![Total Downloads](https://poser.pugx.org/joomla/data/downloads)](https://packagist.org/packages/joomla/data)
+[![Latest Unstable Version](https://poser.pugx.org/joomla/data/v/unstable)](https://packagist.org/packages/joomla/data)
+[![License](https://poser.pugx.org/joomla/data/license)](https://packagist.org/packages/joomla/data)
+
 ### `Data\DataObject`
 
 `Data\DataObject` is a class that is used to store data but allowing you to access the data by mimicking the way PHP handles class properties. Rather than explicitly declaring properties in the class, `Data\DataObject` stores virtual properties of the class in a private internal array. Concrete properties can still be defined but these are separate from the data.
