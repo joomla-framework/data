@@ -13,35 +13,34 @@ use Joomla\Data\DataObject;
  */
 class Vostok extends DataObject
 {
-	/**
-	 * An array method.
-	 *
-	 * @param   string  $status  A method argument.
-	 *
-	 * @return  string  The return value for the method.
-	 */
-	public function launch($status)
-	{
-		return $status;
-	}
+    /**
+     * An array method.
+     *
+     * @param   string  $status  A method argument.
+     *
+     * @return  string  The return value for the method.
+     */
+    public function launch($status)
+    {
+        return $status;
+    }
 
-	/**
-	 * Set an object property.
-	 *
-	 * @param   string  $property  The property name.
-	 * @param   mixed   $value     The property value.
-	 *
-	 * @return  mixed  The property value.
-	 */
-	protected function setProperty($property, $value)
-	{
-		switch ($property)
-		{
-			case 'successful':
-				$value = strtoupper($value);
-				break;
-		}
+    /**
+     * Set an object property.
+     *
+     * @param   string  $property  The property name.
+     * @param   mixed   $value     The property value.
+     *
+     * @return  mixed  The property value.
+     */
+    protected function setProperty($property, $value)
+    {
+        switch ($property) {
+            case 'successful':
+                $value = strtoupper($value);
+                break;
+        }
 
-		return parent::setProperty($property, $value);
-	}
+        return parent::setProperty($property, $value);
+    }
 }

@@ -13,16 +13,16 @@ use Joomla\Data\DataObject;
  */
 class Capitaliser extends DataObject
 {
-	/**
-	 * Set an object property.
-	 *
-	 * @param   string  $property  The property name.
-	 * @param   mixed   $value     The property value.
-	 *
-	 * @return  mixed  The property value.
-	 */
-	protected function setProperty($property, $value)
-	{
-		return parent::setProperty($property, strtoupper($value));
-	}
+    /**
+     * Set an object property.
+     *
+     * @param   string  $property  The property name.
+     * @param   mixed   $value     The property value.
+     *
+     * @return  mixed  The property value.
+     */
+    protected function setProperty($property, $value)
+    {
+        return parent::setProperty($property, strtoupper($value));
+    }
 }

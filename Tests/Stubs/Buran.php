@@ -13,18 +13,18 @@ use Joomla\Data\DataObject;
  */
 class Buran extends DataObject
 {
-	public $rocket = false;
+    public $rocket = false;
 
-	/**
-	 * Method to set the test_value.
-	 *
-	 * @param   string  $value  The test value.
-	 *
-	 * @return  $this
-	 */
-	protected function setTestValue($value)
-	{
-		// Set the property as uppercase.
-		return strtoupper($value);
-	}
+    /**
+     * Method to set the test_value.
+     *
+     * @param   string  $value  The test value.
+     *
+     * @return  $this
+     */
+    protected function setTestValue($value)
+    {
+        // Set the property as uppercase.
+        return strtoupper($value);
+    }
 }
