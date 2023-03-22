@@ -291,10 +291,10 @@ class DataSet implements DumpableInterface, \ArrayAccess, \Countable, \Iterator
     /**
      * Dumps the data object in the set, recursively if appropriate.
      *
-     * @param   integer            $depth   The maximum depth of recursion (default = 3).
-     *                                      For example, a depth of 0 will return a stdClass with all the properties in native
-     *                                      form. A depth of 1 will recurse into the first level of properties only.
-     * @param   \SplObjectStorage  $dumped  An array of already serialized objects that is used to avoid infinite loops.
+     * @param   integer             $depth   The maximum depth of recursion (default = 3).
+     *                                       For example, a depth of 0 will return a stdClass with all the properties in native
+     *                                       form. A depth of 1 will recurse into the first level of properties only.
+     * @param   ?\SplObjectStorage  $dumped  An array of already serialized objects that is used to avoid infinite loops.
      *
      * @return  array  An associative array of the data objects in the set, dumped as a simple PHP stdClass object.
      *
