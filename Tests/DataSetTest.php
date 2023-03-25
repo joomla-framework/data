@@ -283,7 +283,7 @@ class DataSetTest extends TestCase
 	public function testDump()
 	{
 		$this->assertEquals(
-			[
+			(object) [
 				new \stdClass,
 				(object) [
 					'mission' => 'Vostok 1',

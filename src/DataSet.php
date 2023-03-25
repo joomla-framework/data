@@ -310,7 +310,7 @@ class DataSet implements DumpableInterface, \ArrayAccess, \Countable, \Iterator
 	 *                                      form. A depth of 1 will recurse into the first level of properties only.
 	 * @param   \SplObjectStorage  $dumped  An array of already serialized objects that is used to avoid infinite loops.
 	 *
-	 * @return  array  An associative array of the data objects in the set, dumped as a simple PHP stdClass object.
+	 * @return  \stdClass  An object of the data objects in the set, dumped as a simple PHP stdClass object.
 	 *
 	 * @see     DataObject::dump()
 	 * @since   1.0
@@ -326,7 +326,8 @@ class DataSet implements DumpableInterface, \ArrayAccess, \Countable, \Iterator
 		// Add this object to the dumped stack.
 		$dumped->attach($this);
 
-		$objects = [];
+		// Setup a container.
+		$objects = new \stdClass;
 
 		// Make sure that we have not reached our maximum depth.
 		if ($depth > 0)
@@ -334,7 +335,7 @@ class DataSet implements DumpableInterface, \ArrayAccess, \Countable, \Iterator
 			// Handle JSON serialization recursively.
 			foreach ($this->objects as $key => $object)
 			{
-				$objects[$key] = $object->dump($depth, $dumped);
+				$objects->$key = $object->dump($depth, $dumped);
 			}
 		}
 
