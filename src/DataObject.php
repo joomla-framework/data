@@ -206,7 +206,7 @@ class DataObject implements DumpableInterface, \IteratorAggregate, \JsonSerializ
     /**
      * Gets the data properties in a form that can be serialised to JSON format.
      *
-     * @return  string
+     * @return  mixed
      *
      * @since   1.0
      */
