@@ -8,10 +8,8 @@
 namespace Joomla\Data\Tests;
 
 use Joomla\Data\DataObject;
-use Joomla\Data\Tests\Stubs\Buran;
 use Joomla\Data\Tests\Stubs\Capitaliser;
 use Joomla\Registry\Registry;
-use Joomla\Test\TestHelper;
 use PHPUnit\Framework\TestCase;
 
 /**
