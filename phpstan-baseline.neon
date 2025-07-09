@@ -1,0 +1,19 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Instanceof between Joomla\\Data\\DataObject and Joomla\\Data\\DataObject will always evaluate to true\.$#'
+			identifier: instanceof.alwaysTrue
+			count: 1
+			path: src/DataSet.php
+
+		-
+			message: '#^Method Joomla\\Data\\DataSet\:\:offsetSet\(\) has InvalidArgumentException in PHPDoc @throws tag but it''s not thrown\.$#'
+			identifier: throws.unusedType
+			count: 1
+			path: src/DataSet.php
+
+		-
+			message: '#^Strict comparison using \=\=\= between ''resource''\|''resource \(closed\)'' and ''object'' will always evaluate to false\.$#'
+			identifier: identical.alwaysFalse
+			count: 1
+			path: src/DataSet.php
