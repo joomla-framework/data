@@ -198,7 +198,7 @@ class DataObject implements DumpableInterface, \IteratorAggregate, \JsonSerializ
      * @see     IteratorAggregate::getIterator()
      * @since   1.0
      */
-    public function getIterator()
+    public function getIterator(): \ArrayIterator
     {
         return new \ArrayIterator($this->dump(0));
     }
@@ -206,11 +206,11 @@ class DataObject implements DumpableInterface, \IteratorAggregate, \JsonSerializ
     /**
      * Gets the data properties in a form that can be serialised to JSON format.
      *
-     * @return  mixed
+     * @return  \stdClass
      *
      * @since   1.0
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): \stdClass
     {
         return $this->dump();
     }
@@ -304,7 +304,7 @@ class DataObject implements DumpableInterface, \IteratorAggregate, \JsonSerializ
      *
      * @since   1.0
      */
-    public function count()
+    public function count(): int
     {
         return \count($this->properties);
     }
