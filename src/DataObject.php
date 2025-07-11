@@ -198,6 +198,7 @@ class DataObject implements DumpableInterface, \IteratorAggregate, \JsonSerializ
      * @see     IteratorAggregate::getIterator()
      * @since   1.0
      */
+    #[\ReturnTypeWillChange]
     public function getIterator()
     {
         return new \ArrayIterator($this->dump(0));
@@ -210,6 +211,7 @@ class DataObject implements DumpableInterface, \IteratorAggregate, \JsonSerializ
      *
      * @since   1.0
      */
+    #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
         return $this->dump();
@@ -304,6 +306,7 @@ class DataObject implements DumpableInterface, \IteratorAggregate, \JsonSerializ
      *
      * @since   1.0
      */
+    #[\ReturnTypeWillChange]
     public function count()
     {
         return \count($this->properties);
