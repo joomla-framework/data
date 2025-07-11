@@ -11,21 +11,6 @@ parameters:
 			path: src/DataSet.php
 
 		-
-			message: "#^Method Joomla\\\\Data\\\\DataSet\\:\\:valid\\(\\) with return type void returns false but should not return anything\\.$#"
-			count: 1
-			path: src/DataSet.php
-
-		-
-			message: "#^Method Joomla\\\\Data\\\\DataSet\\:\\:valid\\(\\) with return type void returns true but should not return anything\\.$#"
-			count: 1
-			path: src/DataSet.php
-
-		-
-			message: "#^PHPDoc tag @return with type bool is incompatible with native type void\\.$#"
-			count: 1
-			path: src/DataSet.php
-
-		-
 			message: "#^Property Joomla\\\\Data\\\\DataSet\\:\\:\\$current \\(int\\) does not accept default value of type false\\.$#"
 			count: 1
 			path: src/DataSet.php

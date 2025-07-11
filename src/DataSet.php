@@ -540,7 +540,7 @@ class DataSet implements DumpableInterface, \ArrayAccess, \Countable, \Iterator
      *
      * @since   1.0
      */
-    public function valid(): void
+    public function valid(): bool
     {
         // Check the current position.
         if (!is_scalar($this->current) || !isset($this->objects[$this->current])) {
