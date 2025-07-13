@@ -256,6 +256,7 @@ class DataSet implements DumpableInterface, \ArrayAccess, \Countable, \Iterator
      *
      * @since   1.0
      */
+    #[\ReturnTypeWillChange]
     public function count()
     {
         return \count($this->objects);
@@ -283,6 +284,7 @@ class DataSet implements DumpableInterface, \ArrayAccess, \Countable, \Iterator
      *
      * @since   1.0
      */
+    #[\ReturnTypeWillChange]
     public function current()
     {
         return is_scalar($this->current) ? $this->objects[$this->current] : false;
@@ -354,6 +356,7 @@ class DataSet implements DumpableInterface, \ArrayAccess, \Countable, \Iterator
      *
      * @since   1.0
      */
+    #[\ReturnTypeWillChange]
     public function key()
     {
         return $this->current;
@@ -397,6 +400,7 @@ class DataSet implements DumpableInterface, \ArrayAccess, \Countable, \Iterator
      *
      * @since   1.0
      */
+    #[\ReturnTypeWillChange]
     public function next()
     {
         // Get the object offsets.
@@ -430,6 +434,7 @@ class DataSet implements DumpableInterface, \ArrayAccess, \Countable, \Iterator
      *
      * @since   1.0
      */
+    #[\ReturnTypeWillChange]
     public function offsetExists($offset)
     {
         return isset($this->objects[$offset]);
@@ -444,6 +449,7 @@ class DataSet implements DumpableInterface, \ArrayAccess, \Countable, \Iterator
      *
      * @since   1.0
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         return $this->objects[$offset] ?? null;
@@ -460,6 +466,7 @@ class DataSet implements DumpableInterface, \ArrayAccess, \Countable, \Iterator
      * @since   1.0
      * @throws  \InvalidArgumentException if an object is not an instance of DataObject.
      */
+    #[\ReturnTypeWillChange]
     public function offsetSet($offset, $object)
     {
         if (!($object instanceof DataObject)) {
@@ -489,6 +496,7 @@ class DataSet implements DumpableInterface, \ArrayAccess, \Countable, \Iterator
      *
      * @since   1.0
      */
+    #[\ReturnTypeWillChange]
     public function offsetUnset($offset)
     {
         if (!isset($this[$offset])) {
@@ -522,6 +530,7 @@ class DataSet implements DumpableInterface, \ArrayAccess, \Countable, \Iterator
      *
      * @since   1.0
      */
+    #[\ReturnTypeWillChange]
     public function rewind()
     {
         // Set the current position to the first object.
@@ -540,6 +549,7 @@ class DataSet implements DumpableInterface, \ArrayAccess, \Countable, \Iterator
      *
      * @since   1.0
      */
+    #[\ReturnTypeWillChange]
     public function valid()
     {
         // Check the current position.
