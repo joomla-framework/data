@@ -255,6 +255,7 @@ class DataSet implements DumpableInterface, \ArrayAccess, \Countable, \Iterator
      *
      * @since   1.0
      */
+    #[\ReturnTypeWillChange]
     public function count()
     {
         return \count($this->objects);
@@ -282,6 +283,7 @@ class DataSet implements DumpableInterface, \ArrayAccess, \Countable, \Iterator
      *
      * @since   1.0
      */
+    #[\ReturnTypeWillChange]
     public function current()
     {
         return is_scalar($this->current) ? $this->objects[$this->current] : false;
