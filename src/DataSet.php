@@ -62,7 +62,7 @@ class DataSet implements DumpableInterface, \ArrayAccess, \Countable, \Iterator
      *
      * @since   1.0
      */
-    public function __call($method, $arguments = []): array
+    public function __call($method, $arguments = [])
     {
         $return = [];
 
@@ -97,7 +97,7 @@ class DataSet implements DumpableInterface, \ArrayAccess, \Countable, \Iterator
      *
      * @since   1.0
      */
-    public function __get($property): array
+    public function __get($property)
     {
         $return = [];
 
@@ -121,7 +121,7 @@ class DataSet implements DumpableInterface, \ArrayAccess, \Countable, \Iterator
      *
      * @since   1.0
      */
-    public function __isset($property): bool
+    public function __isset($property)
     {
         $return = [];
 
@@ -149,7 +149,7 @@ class DataSet implements DumpableInterface, \ArrayAccess, \Countable, \Iterator
      *
      * @since   1.0
      */
-    public function __set($property, $value): void
+    public function __set($property, $value)
     {
         // Iterate through the objects.
         foreach ($this->objects as $object) {
@@ -171,7 +171,7 @@ class DataSet implements DumpableInterface, \ArrayAccess, \Countable, \Iterator
      *
      * @since   1.0
      */
-    public function __unset($property): void
+    public function __unset($property)
     {
         // Iterate through the objects.
         foreach ($this->objects as $object) {
@@ -189,7 +189,7 @@ class DataSet implements DumpableInterface, \ArrayAccess, \Countable, \Iterator
      * @since   1.2.0
      * @throws  \InvalidArgumentException
      */
-    public function getObjectsKeys($type = 'all'): array
+    public function getObjectsKeys($type = 'all')
     {
         $keys = null;
 
@@ -220,7 +220,7 @@ class DataSet implements DumpableInterface, \ArrayAccess, \Countable, \Iterator
      *
      * @since   1.2.0
      */
-    public function toArray($associative = true, ...$keys): array
+    public function toArray($associative = true, ...$keys)
     {
         if (empty($keys)) {
             $keys = $this->getObjectsKeys();
@@ -255,7 +255,8 @@ class DataSet implements DumpableInterface, \ArrayAccess, \Countable, \Iterator
      *
      * @since   1.0
      */
-    public function count(): int
+    #[\ReturnTypeWillChange]
+    public function count()
     {
         return \count($this->objects);
     }
@@ -267,7 +268,7 @@ class DataSet implements DumpableInterface, \ArrayAccess, \Countable, \Iterator
      *
      * @since   1.0
      */
-    public function clear(): DataSet
+    public function clear()
     {
         $this->objects = [];
         $this->rewind();
@@ -282,7 +283,8 @@ class DataSet implements DumpableInterface, \ArrayAccess, \Countable, \Iterator
      *
      * @since   1.0
      */
-    public function current(): DataObject|bool
+    #[\ReturnTypeWillChange]
+    public function current()
     {
         return is_scalar($this->current) ? $this->objects[$this->current] : false;
     }
@@ -300,7 +302,7 @@ class DataSet implements DumpableInterface, \ArrayAccess, \Countable, \Iterator
      * @see     DataObject::dump()
      * @since   1.0
      */
-    public function dump($depth = 3, ?\SplObjectStorage $dumped = null): array
+    public function dump($depth = 3, ?\SplObjectStorage $dumped = null)
     {
         // Check if we should initialise the recursion tracker.
         if ($dumped === null) {
@@ -333,7 +335,7 @@ class DataSet implements DumpableInterface, \ArrayAccess, \Countable, \Iterator
      *
      * @since   1.0
      */
-    public function jsonSerialize(): array
+    public function jsonSerialize()
     {
         $return = [];
 
