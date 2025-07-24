@@ -5,3 +5,7 @@ The following changes were made to the Data package between v3 and v4.
 ### Minimum supported PHP version raised
 
 All Framework packages now require PHP 8.3 or newer.
+
+### Methods of `Joomla\Data\Dataset` have return types declared
+
+To conform with the PHP interfaces, the return types of several methods in the `Dataset` class have been explicitely declared.
