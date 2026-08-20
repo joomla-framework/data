@@ -185,3 +185,52 @@ if (!empty($hurt))
 ### `Data\DumpableInterface`
 
 `Data\DumpableInterface` is an interface that defines a `dump` method for dumping the properties of an object as a `stdClass` with or without recursion.
+
+## Things to know before you build on this
+
+**`toArray()` on an empty `DataSet` throws.** `getObjectsKeys()` starts with `$keys = null` and
+only assigns inside the loop, so an empty set reaches `array_keys(null)` and raises a `TypeError`.
+Since `toArray()` calls it whenever no explicit key list is given, this is the empty result set —
+the most ordinary case there is:
+
+```php
+(new DataSet())->toArray();   // TypeError
+```
+
+Guard before calling, or pass the keys explicitly:
+
+```php
+$rows = count($set) ? $set->toArray() : [];
+$rows = $set->toArray(true, 'id', 'title');
+```
+
+**Circular references overflow on `json_encode()`.** `dump()` guards against cycles within one
+call, but leaves the already-seen object in place rather than replacing it with a marker.
+`json_encode()` then calls that object's `jsonSerialize()`, which starts a fresh `dump()` with an
+empty tracker, and the two objects bounce until memory runs out:
+
+```php
+$a = new DataObject(); $b = new DataObject();
+$a->b = $b; $b->a = $a;
+
+json_encode($a);   // exhausts memory
+```
+
+Break the cycle before serialising, or serialise a projection instead of the object graph.
+
+**`isset()` and `bind()` disagree about null.** `bind(['a' => null])` stores the property, but
+`__isset()` checks `isset($this->properties['a'])`, which is `false` for a null value. There is no
+`hasProperty()` to tell "absent" from "present but null" apart.
+
+**`__isset()` and `__unset()` bypass the extension points.** `__get()` and `__set()` delegate to
+the protected `getProperty()`/`setProperty()`, but `__isset()` and `__unset()` read and write
+`$this->properties` directly. A subclass that overrides `getProperty()` — for computed properties,
+say — will find `isset($obj->computed)` returning `false` while `$obj->computed` works.
+
+**`DataSet` uses a single internal cursor.** It implements `Iterator` rather than
+`IteratorAggregate`, so two nested `foreach` loops over the same set interfere: the inner loop
+advances the cursor the outer one is using.
+
+**Key extraction round-trips through JSON.** `getObjectsKeys()` runs `json_decode(json_encode($object), true)`
+per object. That is slow for large sets, and a value containing invalid UTF-8 makes `json_encode()`
+return `false`, after which the method fails the same way as the empty-set case above.
