@@ -109,6 +109,8 @@ The `clear` method will clear all the objects in the data set.
 
 The `keys` method will return all of the keys of the objects stored in the set. It works like the `array_keys` function does on an PHP array.
 
+The `getObjectsKeys` method returns the property names found in the objects (`'all'`, the default, or only those `'common'` to every object), and `toArray` returns the objects as arrays of those properties. Both return an empty array for an empty set.
+
 ```php
 use Joomla\Data\DataObject;
 
@@ -187,22 +189,6 @@ if (!empty($hurt))
 `Data\DumpableInterface` is an interface that defines a `dump` method for dumping the properties of an object as a `stdClass` with or without recursion.
 
 ## Things to know before you build on this
-
-**`toArray()` on an empty `DataSet` throws.** `getObjectsKeys()` starts with `$keys = null` and
-only assigns inside the loop, so an empty set reaches `array_keys(null)` and raises a `TypeError`.
-Since `toArray()` calls it whenever no explicit key list is given, this is the empty result set —
-the most ordinary case there is:
-
-```php
-(new DataSet())->toArray();   // TypeError
-```
-
-Guard before calling, or pass the keys explicitly:
-
-```php
-$rows = count($set) ? $set->toArray() : [];
-$rows = $set->toArray(true, 'id', 'title');
-```
 
 **Circular references overflow on `json_encode()`.** `dump()` guards against cycles within one
 call, but leaves the already-seen object in place rather than replacing it with a marker.

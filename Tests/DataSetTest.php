@@ -168,6 +168,28 @@ class DataSetTest extends TestCase
     }
 
     /**
+     * An empty set has no object keys.
+     */
+    public function testGetObjectsKeysOfEmptySet()
+    {
+        $instance = new DataSet();
+
+        $this->assertSame([], $instance->getObjectsKeys());
+        $this->assertSame([], $instance->getObjectsKeys('common'));
+    }
+
+    /**
+     * An empty set converts to an empty array.
+     */
+    public function testToArrayOfEmptySet()
+    {
+        $instance = new DataSet();
+
+        $this->assertSame([], $instance->toArray());
+        $this->assertSame([], $instance->toArray(false));
+    }
+
+    /**
      * @testdox  The dataset can be converted to an array
      *
      * @covers   Joomla\Data\DataSet
