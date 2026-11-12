@@ -175,7 +175,7 @@ class DataObject implements DumpableInterface, \IteratorAggregate, \JsonSerializ
         }
 
         // Add this object to the dumped stack.
-        $dumped->attach($this);
+        $dumped[$this] = null;
 
         // Setup a container.
         $dump = new \stdClass();
@@ -242,7 +242,7 @@ class DataObject implements DumpableInterface, \IteratorAggregate, \JsonSerializ
             // Check if the object is also a dumpable object.
             if ($value instanceof DumpableInterface) {
                 // Do not dump the property if it has already been dumped.
-                if (!$dumped->contains($value)) {
+                if (!isset($dumped[$value])) {
                     $value = $value->dump($depth - 1, $dumped);
                 }
             }
