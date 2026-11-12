@@ -8,6 +8,7 @@
 namespace Joomla\Data\Tests;
 
 use Joomla\Data\DataObject;
+use Joomla\Data\DataSet;
 use Joomla\Data\Tests\Stubs\Capitaliser;
 use Joomla\Registry\Registry;
 use PHPUnit\Framework\TestCase;
@@ -367,5 +368,33 @@ class DataObjectTest extends TestCase
 
         // The property should not be set.
         $this->assertNull($this->instance->$property);
+    }
+
+    /**
+     * Dumping does not use the SplObjectStorage methods deprecated in PHP 8.5.
+     */
+    public function testDumpTriggersNoDeprecations()
+    {
+        $child  = new DataObject(['y' => 2]);
+        $object = new DataObject(['child' => $child, 'again' => $child, 'set' => new DataSet([new DataObject(['z' => 3])])]);
+
+        $deprecations = [];
+
+        set_error_handler(
+            static function (int $errno, string $errstr) use (&$deprecations): bool {
+                $deprecations[] = $errstr;
+
+                return true;
+            },
+            E_DEPRECATED
+        );
+
+        try {
+            $object->dump();
+        } finally {
+            restore_error_handler();
+        }
+
+        $this->assertSame([], $deprecations);
     }
 }
