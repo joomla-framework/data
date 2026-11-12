@@ -11,3 +11,4 @@ property reads and method calls to every member.
 
 * [Updating from v2 to v3](v2-to-v3-update.md) — PHP 8.1, PSR-12, no API changes
 * [Updating from v3 to v4](v3-to-v4-update.md) — PHP 8.3, `DataSet` iterator methods typed
+* [Updating from v4 to v5](v4-to-v5-update.md) — `DataSet` as `IteratorAggregate`, `__call()` throws for unknown methods, native types

@@ -254,28 +254,6 @@ class DataSetTest extends TestCase
     }
 
     /**
-     * @testdox  The current object in the iterator can be retrieved
-     *
-     * @covers   Joomla\Data\DataSet
-     * @uses     Joomla\Data\DataObject
-     */
-    public function testCurrent()
-    {
-        $this->assertSame(
-            $this->instance[0],
-            $this->instance->current()
-        );
-
-        $object = new DataObject();
-        $new    = new DataSet(['foo' => new DataObject()]);
-
-        $this->assertSame(
-            $object,
-            (new DataSet(['foo' => $object]))->current()
-        );
-    }
-
-    /**
      * @testdox  The dataset can be dumped
      *
      * @covers   Joomla\Data\DataSet
@@ -352,18 +330,50 @@ class DataSetTest extends TestCase
     }
 
     /**
-     * @testdox  The internal pointer correctly iterates
-     *
-     * @covers   Joomla\Data\DataSet
-     * @uses     Joomla\Data\DataObject
+     * Calling a method that no object in the set has throws.
      */
-    public function testNext()
+    public function test__callUndefinedMethod()
     {
-        foreach ($this->instance as $object) {
-            $this->assertNotNull($this->instance->key());
+        $this->expectException(\BadMethodCallException::class);
+        $this->expectExceptionMessage('Call to undefined method Joomla\Data\DataSet::undefinedMethod()');
+
+        $this->instance->undefinedMethod();
+    }
+
+    /**
+     * Calling a method on an empty set returns an empty array.
+     */
+    public function test__callOnEmptySet()
+    {
+        $this->assertSame([], (new DataSet())->undefinedMethod());
+    }
+
+    /**
+     * walk() returns the set itself.
+     */
+    public function testWalkReturnsTheSet()
+    {
+        $this->assertSame($this->instance, $this->instance->walk(static function () {
+        }));
+    }
+
+    /**
+     * Each foreach gets its own iterator, so nested loops over the same set work.
+     */
+    public function testGetIterator()
+    {
+        $set = new DataSet(['a' => new DataObject(), 'b' => new DataObject()]);
+
+        $pairs = [];
+
+        foreach ($set as $outer => $object) {
+            foreach ($set as $inner => $other) {
+                $pairs[] = $outer . $inner;
+            }
         }
 
-        $this->assertNull($this->instance->key());
+        $this->assertInstanceOf(\IteratorAggregate::class, $set);
+        $this->assertSame(['aa', 'ab', 'ba', 'bb'], $pairs);
     }
 
     /**
@@ -434,38 +444,6 @@ class DataSetTest extends TestCase
         unset($this->instance['foo']);
 
         $this->assertFalse(isset($this->instance['foo']));
-    }
-
-    /**
-     * @testdox  The internal pointer can be rewound
-     *
-     * @covers   Joomla\Data\DataSet
-     * @uses     Joomla\Data\DataObject
-     */
-    public function testOffsetRewind()
-    {
-        TestHelper::setValue($this->instance, 'current', 'foo');
-
-        $this->instance->rewind();
-        $this->assertEquals(0, $this->instance->key());
-
-        $this->instance->clear();
-        $this->assertFalse($this->instance->key());
-    }
-
-    /**
-     * @testdox  The internal pointer can be validated
-     *
-     * @covers   Joomla\Data\DataSet
-     * @uses     Joomla\Data\DataObject
-     */
-    public function testValid()
-    {
-        $this->assertTrue($this->instance->valid());
-
-        $this->instance->clear();
-
-        $this->assertFalse($this->instance->valid());
     }
 
     /**

@@ -206,8 +206,7 @@ class DataObjectTest extends TestCase
      */
     public function testBindException()
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('The $properties argument must be an array or object, a string was given.');
+        $this->expectException(\TypeError::class);
 
         $this->instance->bind('foobar');
     }

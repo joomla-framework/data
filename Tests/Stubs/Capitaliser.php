@@ -21,7 +21,7 @@ class Capitaliser extends DataObject
      *
      * @return  mixed  The property value.
      */
-    protected function setProperty($property, $value)
+    protected function setProperty(string $property, mixed $value): mixed
     {
         return parent::setProperty($property, strtoupper($value));
     }
