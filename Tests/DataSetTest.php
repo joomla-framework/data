@@ -309,6 +309,22 @@ class DataSetTest extends TestCase
     }
 
     /**
+     * json_encode() uses jsonSerialize() and encodes the objects as a JSON array.
+     */
+    public function testJsonEncodeUsesJsonSerialize()
+    {
+        $instance = new DataSet(
+            [
+                'first'  => new DataObject(['x' => 1]),
+                'second' => new DataObject(['x' => 2]),
+            ]
+        );
+
+        $this->assertInstanceOf(\JsonSerializable::class, $instance);
+        $this->assertSame('[{"x":1},{"x":2}]', json_encode($instance));
+    }
+
+    /**
      * @testdox  The keys for the dataset can be retrieved
      *
      * @covers   Joomla\Data\DataSet

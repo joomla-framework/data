@@ -78,7 +78,14 @@ else
 
 ### `Data\DataSet`
 
-`Data\DataSet` is a collection class that allows the developer to operate on a list of `Data\DataObject` objects as if they were in a typical PHP array (`Data\DataSet` implements the `ArrayAccess`, `Countable` and `Iterator` interfaces).
+`Data\DataSet` is a collection class that allows the developer to operate on a list of `Data\DataObject` objects as if they were in a typical PHP array (`Data\DataSet` implements the `ArrayAccess`, `Countable`, `Iterator` and `JsonSerializable` interfaces).
+
+Passing a `Data\DataSet` to `json_encode()` encodes its objects as a JSON array, in the order of the set. The keys of the set are not included, so a set with string keys becomes a list as well:
+
+```php
+json_encode(new DataSet(['a' => new DataObject(['x' => 1]), 'b' => new DataObject(['x' => 2])]));
+// [{"x":1},{"x":2}]
+```
 
 #### Construction
 
