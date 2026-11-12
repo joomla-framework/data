@@ -286,15 +286,16 @@ class DataSet implements DumpableInterface, \ArrayAccess, \Countable, \Iterator
     #[\ReturnTypeWillChange]
     public function current()
     {
-        return is_scalar($this->current) ? $this->objects[$this->current] : false;
+        return $this->current !== false && $this->current !== null ? $this->objects[$this->current] : false;
     }
 
     /**
      * Dumps the data object in the set, recursively if appropriate.
      *
      * @param   integer             $depth   The maximum depth of recursion (default = 3).
-     *                                       For example, a depth of 0 will return a stdClass with all the properties in native
-     *                                       form. A depth of 1 will recurse into the first level of properties only.
+     *                                       The set counts as one level: a depth of 0 will return an empty array, a depth
+     *                                       of 1 will dump the objects with a depth of 0, i.e. with their properties in
+     *                                       native form.
      * @param   ?\SplObjectStorage  $dumped  An array of already serialized objects that is used to avoid infinite loops.
      *
      * @return  array  An associative array of the data objects in the set, dumped as a simple PHP stdClass object.
@@ -318,7 +319,8 @@ class DataSet implements DumpableInterface, \ArrayAccess, \Countable, \Iterator
         if ($depth > 0) {
             // Handle JSON serialization recursively.
             foreach ($this->objects as $key => $object) {
-                $objects[$key] = $object->dump($depth, $dumped);
+                // Do not dump the object if it has already been dumped.
+                $objects[$key] = isset($dumped[$object]) ? $object : $object->dump($depth - 1, $dumped);
             }
         }
 

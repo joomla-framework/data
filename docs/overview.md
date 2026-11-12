@@ -131,6 +131,10 @@ $average = $players->level / count($players);
 $players->clear();
 ```
 
+The `dump` method returns an array of the objects in the set, each dumped with `Data\DataObject::dump()`. The set counts as one level of recursion: a depth of 0 returns an empty array, and a depth of 1 dumps the objects with a depth of 0, i.e. as `stdClass` objects with their properties in native form. An object that is already being dumped (because the set is a property of that object) is returned as it is instead of being dumped again.
+
+`current` returns `false` when the set is empty or the iterator is past the last object.
+
 `Data\DataSet` supports magic methods that operate on all the objects in the list. Calling an arbitrary method will iterate of the list of objects, checking if each object has a callable method of the name of the method that was invoked. In such a case, the return values are assembled in an array forming the return value of the method invoked on the `Data\DataSet` object. The keys of the original objects are maintained in the result array.
 
 ```php
