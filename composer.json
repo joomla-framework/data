@@ -7,7 +7,8 @@
     "license": "GPL-2.0-or-later",
     "require": {
         "php": "^8.3.0",
-        "joomla/registry": "^4.0"
+        "joomla/registry": "^4.0",
+        "joomla/utilities": "^4.0"
     },
     "require-dev": {
         "joomla/test": "^4.0",
@@ -26,5 +27,6 @@
             "Joomla\\Data\\Tests\\": "Tests/"
         }
     },
-    "minimum-stability": "dev"
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }

@@ -70,13 +70,9 @@ return new \ArrayIterator($value);
 `DataObject` yielded the same key/value pairs before, so this is a correctness fix rather than a
 behaviour change for callers.
 
-> This adds a code dependency on `joomla/utilities`, which is **not listed** in this package's
-> `require`. It resolves today only because `joomla/registry` pulls it in. Add it explicitly if you
-> depend on `getIterator()`:
->
-> ```bash
-> composer require joomla/utilities
-> ```
+> This adds a code dependency on `joomla/utilities`. 4.0.0 does not list it in its `require` and
+> gets it only because `joomla/registry` pulls it in; later 4.x releases require
+> `joomla/utilities` `^4.0` directly.
 
 ## `keys()` and `walk()` typed
 
@@ -89,3 +85,4 @@ in a subclass must now declare the same types.
 |---|---|---|
 | `php` | `^8.1.0` | `^8.3.0` |
 | `joomla/registry` | `^3.0` | `^4.0` |
+| `joomla/utilities` | not required | `^4.0` (only through `joomla/registry` in 4.0.0) |
