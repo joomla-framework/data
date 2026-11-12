@@ -78,7 +78,7 @@ else
 
 ### `Data\DataSet`
 
-`Data\DataSet` is a collection class that allows the developer to operate on a list of `Data\DataObject` objects as if they were in a typical PHP array (`Data\DataSet` implements the `ArrayAccess`, `Countable` and `Iterator` interfaces).
+`Data\DataSet` is a collection class that allows the developer to operate on a list of `Data\DataObject` objects as if they were in a typical PHP array (`Data\DataSet` implements the `ArrayAccess`, `Countable` and `IteratorAggregate` interfaces). Every `foreach` gets its own iterator, so loops over the same set can be nested.
 
 #### Construction
 
@@ -131,7 +131,9 @@ $average = $players->level / count($players);
 $players->clear();
 ```
 
-`Data\DataSet` supports magic methods that operate on all the objects in the list. Calling an arbitrary method will iterate of the list of objects, checking if each object has a callable method of the name of the method that was invoked. In such a case, the return values are assembled in an array forming the return value of the method invoked on the `Data\DataSet` object. The keys of the original objects are maintained in the result array.
+`Data\DataSet` supports magic methods that operate on all the objects in the list. Calling an arbitrary method will iterate of the list of objects, checking if each object has a callable method of the name of the method that was invoked. In such a case, the return values are assembled in an array forming the return value of the method invoked on the `Data\DataSet` object. The keys of the original objects are maintained in the result array. If the set is not empty and none of its objects has a callable method of that name, a `BadMethodCallException` is thrown; an empty set returns an empty array.
+
+The `walk` method calls a callback with each object and its key (like `array_walk`) and returns the set.
 
 ```php
 use Joomla\Data\DataObject;
@@ -226,10 +228,6 @@ Break the cycle before serialising, or serialise a projection instead of the obj
 the protected `getProperty()`/`setProperty()`, but `__isset()` and `__unset()` read and write
 `$this->properties` directly. A subclass that overrides `getProperty()` — for computed properties,
 say — will find `isset($obj->computed)` returning `false` while `$obj->computed` works.
-
-**`DataSet` uses a single internal cursor.** It implements `Iterator` rather than
-`IteratorAggregate`, so two nested `foreach` loops over the same set interfere: the inner loop
-advances the cursor the outer one is using.
 
 **Key extraction round-trips through JSON.** `getObjectsKeys()` runs `json_decode(json_encode($object), true)`
 per object. That is slow for large sets, and a value containing invalid UTF-8 makes `json_encode()`

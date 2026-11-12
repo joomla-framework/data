@@ -25,17 +25,16 @@ class DataObject implements DumpableInterface, \IteratorAggregate, \JsonSerializ
      * @var    array
      * @since  1.0
      */
-    private $properties = [];
+    private array $properties = [];
 
     /**
      * The class constructor.
      *
-     * @param   mixed  $properties  Either an associative array or another object by which to set the initial properties of the new object.
+     * @param   array|object  $properties  Either an associative array or another object by which to set the initial properties of the new object.
      *
      * @since   1.0
-     * @throws  \InvalidArgumentException
      */
-    public function __construct($properties = [])
+    public function __construct(array|object $properties = [])
     {
         // Check the properties input.
         if (!empty($properties)) {
@@ -61,7 +60,7 @@ class DataObject implements DumpableInterface, \IteratorAggregate, \JsonSerializ
      * @see     DataObject::getProperty()
      * @since   1.0
      */
-    public function __get($property)
+    public function __get(string $property): mixed
     {
         return $this->getProperty($property);
     }
@@ -75,7 +74,7 @@ class DataObject implements DumpableInterface, \IteratorAggregate, \JsonSerializ
      *
      * @since   1.0
      */
-    public function __isset($property)
+    public function __isset(string $property): bool
     {
         return isset($this->properties[$property]);
     }
@@ -93,7 +92,7 @@ class DataObject implements DumpableInterface, \IteratorAggregate, \JsonSerializ
      * @see     DataObject::setProperty()
      * @since   1.0
      */
-    public function __set($property, $value)
+    public function __set(string $property, mixed $value): void
     {
         $this->setProperty($property, $value);
     }
@@ -107,7 +106,7 @@ class DataObject implements DumpableInterface, \IteratorAggregate, \JsonSerializ
      *
      * @since   1.0
      */
-    public function __unset($property)
+    public function __unset(string $property): void
     {
         unset($this->properties[$property]);
     }
@@ -115,23 +114,15 @@ class DataObject implements DumpableInterface, \IteratorAggregate, \JsonSerializ
     /**
      * Binds an array or object to this object.
      *
-     * @param   mixed    $properties   An associative array of properties or an object.
-     * @param   boolean  $updateNulls  True to bind null values, false to ignore null values.
+     * @param   array|object  $properties   An associative array of properties or an object.
+     * @param   boolean       $updateNulls  True to bind null values, false to ignore null values.
      *
      * @return  $this
      *
      * @since   1.0
-     * @throws  \InvalidArgumentException
      */
-    public function bind($properties, $updateNulls = true)
+    public function bind(array|object $properties, bool $updateNulls = true): static
     {
-        // Check the properties data type.
-        if (!\is_array($properties) && !\is_object($properties)) {
-            throw new \InvalidArgumentException(
-                sprintf('The $properties argument must be an array or object, a %s was given.', \gettype($properties))
-            );
-        }
-
         // Check if the object is traversable.
         if ($properties instanceof \Traversable) {
             // Convert iterator to array.
@@ -167,7 +158,7 @@ class DataObject implements DumpableInterface, \IteratorAggregate, \JsonSerializ
      *
      * @since   1.0
      */
-    public function dump($depth = 3, ?\SplObjectStorage $dumped = null)
+    public function dump(int $depth = 3, ?\SplObjectStorage $dumped = null): \stdClass
     {
         // Check if we should initialise the recursion tracker.
         if ($dumped === null) {
@@ -199,8 +190,7 @@ class DataObject implements DumpableInterface, \IteratorAggregate, \JsonSerializ
      * @see     IteratorAggregate::getIterator()
      * @since   1.0
      */
-    #[\ReturnTypeWillChange]
-    public function getIterator()
+    public function getIterator(): \ArrayIterator
     {
         $value = ArrayHelper::fromObject($this->dump(0));
 
@@ -214,8 +204,7 @@ class DataObject implements DumpableInterface, \IteratorAggregate, \JsonSerializ
      *
      * @since   1.0
      */
-    #[\ReturnTypeWillChange]
-    public function jsonSerialize()
+    public function jsonSerialize(): \stdClass
     {
         return $this->dump();
     }
@@ -234,7 +223,7 @@ class DataObject implements DumpableInterface, \IteratorAggregate, \JsonSerializ
      *
      * @since   1.0
      */
-    protected function dumpProperty($property, $depth, \SplObjectStorage $dumped)
+    protected function dumpProperty(string $property, int $depth, \SplObjectStorage $dumped): mixed
     {
         $value = $this->getProperty($property);
 
@@ -268,7 +257,7 @@ class DataObject implements DumpableInterface, \IteratorAggregate, \JsonSerializ
      * @see     DataObject::__get()
      * @since   1.0
      */
-    protected function getProperty($property)
+    protected function getProperty(string $property): mixed
     {
         return $this->properties[$property] ?? null;
     }
@@ -286,14 +275,14 @@ class DataObject implements DumpableInterface, \IteratorAggregate, \JsonSerializ
      * @see     DataObject::__set()
      * @since   1.0
      */
-    protected function setProperty($property, $value)
+    protected function setProperty(string $property, mixed $value): mixed
     {
         /*
          * Check if the property starts with a null byte. If so, discard it because a later attempt to try to access it
          * can cause a fatal error. See http://www.php.net/manual/en/language.types.array.php#language.types.array.casting
          */
         if (strpos($property, "\0") === 0) {
-            return;
+            return null;
         }
 
         // Set the value.
@@ -309,8 +298,7 @@ class DataObject implements DumpableInterface, \IteratorAggregate, \JsonSerializ
      *
      * @since   1.0
      */
-    #[\ReturnTypeWillChange]
-    public function count()
+    public function count(): int
     {
         return \count($this->properties);
     }

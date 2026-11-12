@@ -33,7 +33,7 @@ class Vostok extends DataObject
      *
      * @return  mixed  The property value.
      */
-    protected function setProperty($property, $value)
+    protected function setProperty(string $property, mixed $value): mixed
     {
         switch ($property) {
             case 'successful':
