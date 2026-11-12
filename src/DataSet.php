@@ -207,6 +207,10 @@ class DataSet implements DumpableInterface, \ArrayAccess, \Countable, \Iterator
             $keys = ($keys === null) ? $objectVars : $function($keys, $objectVars);
         }
 
+        if ($keys === null) {
+            return [];
+        }
+
         return array_keys($keys);
     }
 
