@@ -276,6 +276,49 @@ class DataSetTest extends TestCase
     }
 
     /**
+     * current() returns false for an empty set without reading a missing offset.
+     */
+    public function testCurrentOfEmptySet()
+    {
+        $this->assertFalse((new DataSet())->current());
+    }
+
+    /**
+     * dump() counts the set as one level of recursion.
+     */
+    public function testDumpRespectsDepth()
+    {
+        $leaf   = new DataObject(['e' => 1]);
+        $middle = new DataObject(['d' => $leaf]);
+        $set    = new DataSet([new DataObject(['c' => $middle])]);
+
+        $this->assertSame([], $set->dump(0));
+
+        $dump = $set->dump(1);
+        $this->assertInstanceOf(\stdClass::class, $dump[0]);
+        $this->assertSame($middle, $dump[0]->c, 'A depth of 1 dumps the objects of the set, not their properties.');
+
+        $dump = $set->dump(2);
+        $this->assertInstanceOf(\stdClass::class, $dump[0]->c);
+        $this->assertSame($leaf, $dump[0]->c->d);
+    }
+
+    /**
+     * dump() does not dump an object again that is already being dumped.
+     */
+    public function testDumpSkipsAlreadyDumpedObjects()
+    {
+        $object = new DataObject(['x' => 1]);
+        $set    = new DataSet([$object]);
+
+        $object->set = $set;
+
+        $dump = $object->dump(10);
+
+        $this->assertSame([$object], $dump->set);
+    }
+
+    /**
      * @testdox  The dataset can be dumped
      *
      * @covers   Joomla\Data\DataSet
