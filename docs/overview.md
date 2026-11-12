@@ -35,7 +35,7 @@ The `dump` method gets a plain `stdClass` version of the `Data\DataObject` objec
 
 The `JsonSerializable` interface is implemented. This method proxies to the `dump` method (defaulting to a recursion depth of 3). Note that this interface only takes effect implicitly in PHP 5.4 so any code built for PHP 5.3 needs to explicitly use either the `jsonSerialize` or the `dump` method before passing to `json_encode`.
 
-The `Data\DataObject` class also implements the `IteratorAggregate` interface so it can easily be used in a `foreach` statement.
+The `Data\DataObject` class also implements the `IteratorAggregate` interface so it can easily be used in a `foreach` statement. The iterator yields the property values as they are stored: nested objects (another `Data\DataObject`, a `DateTime`, …) are returned unchanged, not dumped or converted.
 
 ```php
 use Joomla\Data\DataObject;
