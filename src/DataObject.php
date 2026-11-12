@@ -224,7 +224,8 @@ class DataObject implements DumpableInterface, \IteratorAggregate, \JsonSerializ
      * Dumps a data property.
      *
      * If recursion is set, this method will dump any object implementing DumpableInterface (like DataObject and DataSet); it will
-     * convert a DateTimeInterface object to a string; and it will convert a Joomla\Registry\Registry to an object.
+     * convert a DateTimeInterface object to a string; and it will convert a Joomla\Registry\Registry to a copy of its data as an
+     * object.
      *
      * @param   string             $property  The name of the data property.
      * @param   integer            $depth     The current depth of recursion (a value of 0 will ignore recursion).
@@ -251,7 +252,7 @@ class DataObject implements DumpableInterface, \IteratorAggregate, \JsonSerializ
             if ($value instanceof \DateTimeInterface) {
                 $value = $value->format('Y-m-d H:i:s');
             } elseif ($value instanceof Registry) {
-                $value = $value->toObject();
+                $value = (clone $value)->toObject();
             }
         }
 
