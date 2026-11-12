@@ -230,7 +230,3 @@ say — will find `isset($obj->computed)` returning `false` while `$obj->compute
 **`DataSet` uses a single internal cursor.** It implements `Iterator` rather than
 `IteratorAggregate`, so two nested `foreach` loops over the same set interfere: the inner loop
 advances the cursor the outer one is using.
-
-**Key extraction round-trips through JSON.** `getObjectsKeys()` runs `json_decode(json_encode($object), true)`
-per object. That is slow for large sets, and a value containing invalid UTF-8 makes `json_encode()`
-return `false`, after which the method fails the same way as the empty-set case above.

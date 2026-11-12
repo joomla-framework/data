@@ -202,7 +202,7 @@ class DataSet implements DumpableInterface, \ArrayAccess, \Countable, \Iterator
         }
 
         foreach ($this->objects as $object) {
-            $objectVars = json_decode(json_encode($object), true);
+            $objectVars = (array) $object->dump(0);
 
             $keys = ($keys === null) ? $objectVars : $function($keys, $objectVars);
         }

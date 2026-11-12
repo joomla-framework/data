@@ -141,6 +141,22 @@ class DataSetTest extends TestCase
     }
 
     /**
+     * The object keys do not depend on the values being encodable as JSON.
+     */
+    public function testGetObjectsKeysWithValuesThatCannotBeEncoded()
+    {
+        $instance = new DataSet(
+            [
+                new DataObject(['foo' => "\xB1\x31", 'bar' => 'var']),
+                new DataObject(['foo' => 'var', 'baz' => NAN]),
+            ]
+        );
+
+        $this->assertSame(['foo', 'bar', 'baz'], $instance->getObjectsKeys());
+        $this->assertSame(['foo'], $instance->getObjectsKeys('common'));
+    }
+
+    /**
      * @testdox  The object keys from the dataset can be retrieved
      *
      * @covers   Joomla\Data\DataSet
