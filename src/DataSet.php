@@ -14,7 +14,7 @@ namespace Joomla\Data;
  *
  * @since  1.0
  */
-class DataSet implements DumpableInterface, \ArrayAccess, \Countable, \Iterator
+class DataSet implements DumpableInterface, \ArrayAccess, \Countable, \Iterator, \JsonSerializable
 {
     /**
      * The current position of the iterator.
@@ -335,6 +335,7 @@ class DataSet implements DumpableInterface, \ArrayAccess, \Countable, \Iterator
      *
      * @since   1.0
      */
+    #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
         $return = [];
