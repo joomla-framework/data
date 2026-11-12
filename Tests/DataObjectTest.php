@@ -301,6 +301,25 @@ class DataObjectTest extends TestCase
     }
 
     /**
+     * Changing a dumped Registry does not change the Registry itself.
+     */
+    public function testDumpDoesNotExposeRegistryData()
+    {
+        $registry = new Registry(['key' => 'value', 'nested' => ['inner' => 'value']]);
+        $object   = new DataObject(['registry' => $registry]);
+
+        $dump = $object->dump();
+
+        $this->assertEquals((object) ['key' => 'value', 'nested' => (object) ['inner' => 'value']], $dump->registry);
+
+        $dump->registry->key           = 'changed';
+        $dump->registry->nested->inner = 'changed';
+
+        $this->assertSame('value', $registry->get('key'));
+        $this->assertSame('value', $registry->get('nested.inner'));
+    }
+
+    /**
      * @testdox  An iterator for the object can be created
      *
      * @covers   Joomla\Data\DataObject

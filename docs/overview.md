@@ -31,7 +31,7 @@ echo $object2->foo;
 
 The `bind` method allows for injecting an existing array or object into the `Data\DataObject` object.
 
-The `dump` method gets a plain `stdClass` version of the `Data\DataObject` object's properties. It will also support recursion to a specified number of levels where the default is 3 and a depth of 0 would return a `stdClass` object with all the properties in native form. Note that the `dump` method will only return virtual properties set binding and magic methods. It will not include any concrete properties defined in the class itself.
+The `dump` method gets a plain `stdClass` version of the `Data\DataObject` object's properties. It will also support recursion to a specified number of levels where the default is 3 and a depth of 0 would return a `stdClass` object with all the properties in native form. When recursing, dates are formatted as `Y-m-d H:i:s` strings and a `Joomla\Registry\Registry` is converted to a copy of its data as a `stdClass`, so changing the dump does not change the registry. Note that the `dump` method will only return virtual properties set binding and magic methods. It will not include any concrete properties defined in the class itself.
 
 The `JsonSerializable` interface is implemented. This method proxies to the `dump` method (defaulting to a recursion depth of 3). Note that this interface only takes effect implicitly in PHP 5.4 so any code built for PHP 5.3 needs to explicitly use either the `jsonSerialize` or the `dump` method before passing to `json_encode`.
 
