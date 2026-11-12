@@ -8,7 +8,7 @@ them narrows what the method may return.
 | | v3 (3.0.2) | v4 (4.0.0) |
 |---|---|---|
 | PHP | `^8.1.0` | `^8.3.0` |
-| `DataSet::key()` | untyped | `: int\|bool\|null` — **breaks string keys** |
+| `DataSet::key()` | untyped | `: int\|bool\|null` — **breaks string keys** (fixed in the next 4.x release) |
 | `DataSet::keys()` | untyped | `: array` |
 | `DataSet::walk()` | untyped | `: bool` |
 | `DataObject::getIterator()` | returned the dump directly | goes through `ArrayHelper::fromObject()` |
@@ -17,30 +17,38 @@ them narrows what the method may return.
 
 All Framework packages now require **PHP 8.3** or newer.
 
-## `DataSet::key()` no longer allows string keys
+## `DataSet::key()` lost string keys in 4.0.0
 
 ```php
 // v3
 #[\ReturnTypeWillChange]
 public function key()
 
-// v4
+// v4.0.0
 public function key(): int|bool|null
+
+// later 4.x releases
+public function key(): int|string|bool|null
 ```
 
 `DataSet` accepts any offset — `offsetSet()` does no key check, and the constructor keeps the keys
-of the array it is given. A set built with string keys therefore iterates fine in 3.x but raises a
-`TypeError` in 4.0:
+of the array it is given. A set built with string keys therefore iterates fine in 3.x, but in 4.0.0
+the return type coerces every string key to `true`:
 
 ```php
 $set = new DataSet(['first' => new DataObject(['a' => 1])]);
 
 foreach ($set as $key => $object) {
-    // v4: TypeError: Return value must be of type int|bool|null, string returned
+    // v4.0.0: $key === true
+    // later 4.x releases: $key === 'first'
 }
 ```
 
-If you build sets with string keys, either switch to integer keys:
+In later 4.x releases, `key()` also allows `string` and iteration yields the original keys again. A subclass
+that overrides `key()` with the 4.0.0 signature `int|bool|null` still works, but loses string keys
+the same way; widen its return type to `int|string|bool|null`.
+
+If you have to support 4.0.0, either switch to integer keys:
 
 ```php
 $set = new DataSet(array_values($objects));

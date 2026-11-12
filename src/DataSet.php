@@ -351,11 +351,11 @@ class DataSet implements DumpableInterface, \ArrayAccess, \Countable, \Iterator
     /**
      * Gets the key of the current object in the iterator.
      *
-     * @return  int|bool|null  The object key on success; false on failure.
+     * @return  int|string|bool|null  The object key on success; false on failure.
      *
      * @since   1.0
      */
-    public function key(): int|bool|null
+    public function key(): int|string|bool|null
     {
         return $this->current;
     }

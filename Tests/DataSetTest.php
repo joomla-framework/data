@@ -367,6 +367,28 @@ class DataSetTest extends TestCase
     }
 
     /**
+     * Iterating a set with string keys yields those keys.
+     */
+    public function testIterationKeepsStringKeys()
+    {
+        $set = new DataSet(
+            [
+                'first'  => new DataObject(['a' => 1]),
+                'second' => new DataObject(['a' => 2]),
+                3        => new DataObject(['a' => 3]),
+            ]
+        );
+
+        $keys = [];
+
+        foreach ($set as $key => $object) {
+            $keys[] = $key;
+        }
+
+        $this->assertSame(['first', 'second', 3], $keys);
+    }
+
+    /**
      * @testdox  Checking property presence as an array is supported
      *
      * @covers   Joomla\Data\DataSet
