@@ -66,9 +66,11 @@ $value = ArrayHelper::fromObject($this->dump(0));
 return new \ArrayIterator($value);
 ```
 
-`dump(0)` returns a `stdClass`; `ArrayHelper::fromObject()` turns it into an array. Iterating a
-`DataObject` yielded the same key/value pairs before, so this is a correctness fix rather than a
-behaviour change for callers.
+`dump(0)` returns a `stdClass`; `ArrayHelper::fromObject()` turns it into an array. In 4.0.0 this
+conversion recursed into the values, so a nested `DataObject` or `DateTime` came out of the iterator
+as an empty array. Later 4.x releases convert only the top level
+(`ArrayHelper::fromObject($this->dump(0), false)`), and iterating yields the same key/value pairs
+as in v3 again.
 
 > This adds a code dependency on `joomla/utilities`, which is **not listed** in this package's
 > `require`. It resolves today only because `joomla/registry` pulls it in. Add it explicitly if you

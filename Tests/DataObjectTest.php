@@ -311,6 +311,20 @@ class DataObjectTest extends TestCase
     }
 
     /**
+     * Iterating an object yields nested objects unchanged.
+     */
+    public function testGetIteratorKeepsNestedObjects()
+    {
+        $child = new DataObject(['y' => 2]);
+        $date  = new \DateTime('2020-01-01');
+        $plain = (object) ['z' => 3];
+
+        $values = iterator_to_array(new DataObject(['child' => $child, 'date' => $date, 'plain' => $plain, 'list' => [1, 2]]));
+
+        $this->assertSame(['child' => $child, 'date' => $date, 'plain' => $plain, 'list' => [1, 2]], $values);
+    }
+
+    /**
      * @testdox  A property can be read
      *
      * @covers   Joomla\Data\DataObject

@@ -202,7 +202,7 @@ class DataObject implements DumpableInterface, \IteratorAggregate, \JsonSerializ
     #[\ReturnTypeWillChange]
     public function getIterator()
     {
-        $value = ArrayHelper::fromObject($this->dump(0));
+        $value = ArrayHelper::fromObject($this->dump(0), false);
 
         return new \ArrayIterator($value);
     }
